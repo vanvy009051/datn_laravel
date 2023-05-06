@@ -68,7 +68,7 @@
                                     </form>
                                 </div>
                                 @endforeach
-                                <div id="slick-nav-2" class="products-slick-nav"></div>
+                                <div id="slick-nav-2" class="products-slick-nav">a</div>
                             </div>
                         </div>
                     </div>
