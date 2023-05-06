@@ -1,0 +1,93 @@
+.cart-info {
+    display: flex;
+    gap: 0 16px;
+}
+
+.choose-cart__item {
+    padding: 30px;
+    border: 1px solid #ccc;
+}
+
+.choose-cart__item .choose-cart__info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.choose-cart__item .choose-cart__info .choose-cart__field select,
+.choose-cart__item .choose-cart__info .choose-cart__field input {
+    width: 100%;
+    height: 30px;
+}
+
+.choose-cart__item .choose-cart__total {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.choose-cart__item .choose-cart__total ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 16px;
+}
+
+/* Checkout login */
+
+.form-checkout-login {
+    display: flex;
+    flex-direction: row;
+    gap: 0 16px;
+    padding: 40px 0;
+}
+
+.form-checkout-login .login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-checkout-login .login-form .checkout-login,
+.form-checkout-login .signup-form .checkout-signup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-checkout-login .login-form .checkout-login span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.form-checkout-login .login-form .checkout-login input,
+.form-checkout-login .signup-form .checkout-signup input {
+    padding: 12px 8px;
+}
+
+.form-checkout-login .login-form .checkout-login span input[type="checkbox"] {
+    margin: 0;
+}
+
+.form-checkout-login .login-form .checkout-login button:hover,
+.form-checkout-login .signup-form .checkout-signup button:hover {
+    background-color: #a9011e;
+}
+
+.form-checkout-login .login-form .checkout-login button:focus,
+.form-checkout-login .signup-form .checkout-signup button:focus {
+    background-color: #a9011e;
+    border: none;
+    outline: none;
+}
+
+.product .product-body .product-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    height: 40px;
+}

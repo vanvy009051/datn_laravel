@@ -1,0 +1,80 @@
+.product-infomation {
+    display: flex;
+    flex-direction: column;
+    font-size: 16px;
+    gap: 8px;
+}
+
+.product-quanlity {
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    gap: 8px;
+}
+
+.product-quanlity label {
+    margin: 0;
+}
+
+.product-infomation input {
+    text-align: center;
+    width: 100px;
+}
+
+.product-price {
+    font-size: 20px;
+    font-weight: 600;
+    color: #d10024;
+}
+.add-to-cart__button {
+    width: 100%;
+    padding: 8px 0;
+    color: #fff;
+    background-color: #d10024;
+}
+
+.reviews-tab {
+    padding: 12px 50px;
+}
+
+.profile-reviews {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-reviews i {
+    color: #d10024;
+    margin-right: 4px;
+}
+
+.review-text {
+    font-size: 14px;
+}
+
+.form-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mail-text {
+    display: flex;
+    gap: 8px;
+}
+
+.mail-text input {
+    width: 100%;
+    padding: 12px;
+}
+
+.form-reviews textarea {
+    padding: 12px;
+    resize: none;
+}
+
+.form-reviews button {
+    background-color: #d10024;
+    color: #fff;
+    width: 150px;
+}
