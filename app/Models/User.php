@@ -34,23 +34,23 @@ class User extends Authenticatable
     protected $primarykey = 'id';
     protected $guarded = [];
 
-    public function role(): HasOne
-    {
-        return $this->hasOne(Role::class, 'role_id', 'id');
-    }
+    // public function role(): HasOne
+    // {
+    //     return $this->hasOne(Role::class, 'role_id', 'id');
+    // }
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class, 'order_id', 'id');
-    }
+    // public function orders(): HasMany
+    // {
+    //     return $this->hasMany(Order::class, 'order_id', 'id');
+    // }
 
-    public function favor_products(): HasMany
-    {
-        return $this->hasMany(Favor_Product::class, 'user_id', 'id');
-    }
+    // public function favor_products(): HasMany
+    // {
+    //     return $this->hasMany(Favor_Product::class, 'user_id', 'id');
+    // }
 
-    public function feedback(): HasMany
-    {
-        return $this->hasMany(Feedback::class, 'user_id', 'id');
-    }
+    // public function feedback(): HasMany
+    // {
+    //     return $this->hasMany(Feedback::class, 'user_id', 'id');
+    // }
 }

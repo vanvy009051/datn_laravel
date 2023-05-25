@@ -12,6 +12,10 @@ use Socialite;
 use App\Models\User;
 use App\Models\Socials;
 use Validator, Redirect, Response, File;
+use App\Models\Statisticals;
+use Carbon\Carbon;
+use App\Models\Product;
+use App\Models\Orders;
 
 session_start();
 
@@ -35,7 +39,10 @@ class AdminController extends Controller
     public function dashboard()
     {
         $this->AuthLogin();
-        return view('backend/admin.dashboard');
+        $product_donut = Product::all()->count();
+        $order_donut = Orders::all()->count();
+        $user_donut = User::where('role_id', 2)->count();
+        return view('backend.admin.dashboard')->withView('backend.admin.layout')->with(compact('product_donut', 'order_donut', 'user_donut'));
     }
 
     public function show_dashboard(Request $request)
@@ -174,5 +181,76 @@ class AdminController extends Controller
             Session::put('user_id', $account_name->id);
         }
         return redirect('/')->with('message', 'Đăng nhập Admin thành công');
+    }
+
+    public function filter_by_date(Request $request)
+    {
+        $data = $request->all();
+        $from_date = $data['from_date'];
+        $to_date = $data['to_date'];
+
+        $get = Statisticals::whereBetween('order_date', [$from_date, $to_date])->orderby('order_date', 'ASC')->get();
+        foreach ($get as $key => $value) {
+            $chart_data[] = array(
+                'period' => $value->order_date,
+                'order' => $value->total_order,
+                'sales' => $value->sales,
+                'profit' => $value->profit,
+                'quantity' => $value->quantity
+            );
+        }
+        echo $data = json_encode($chart_data);
+    }
+
+    public function dashboard_filter(Request $request)
+    {
+        $data = $request->all();
+        $dauthangnay = Carbon::now('Asia/Ho_Chi_Minh')->startOfMonth()->toDateString();
+        $dauthangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->startOfMonth()->toDateString();
+        $cuoithangtruoc = Carbon::now('Asia/Ho_Chi_Minh')->subMonth()->endOfMonth()->toDateString();
+
+        $sub7days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(7)->toDateString();
+        $sub365days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(365)->toDateString();
+
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+
+        if ($data['dashboard_value'] == '7ngay') {
+            $get = Statisticals::whereBetween('order_date', [$sub7days, $now])->orderby('order_date', 'asc')->get();
+        } elseif ($data['dashboard_value'] == 'thangtruoc') {
+            $get = Statisticals::whereBetween('order_date', [$dauthangtruoc, $cuoithangtruoc])->orderby('order_date', 'asc')->get();
+        } elseif ($data['dashboard_value'] == 'thangnay') {
+            $get = Statisticals::whereBetween('order_date', [$dauthangnay, $now])->orderby('order_date', 'asc')->get();
+        } else {
+            $get = Statisticals::whereBetween('order_date', [$sub365days, $now])->orderby('order_date', 'asc')->get();
+        }
+
+        foreach ($get as $key => $value) {
+            $chart_data[] = array(
+                'period' => $value->order_date,
+                'order' => $value->total_order,
+                'sales' => $value->sales,
+                'profit' => $value->profit,
+                'quantity' => $value->quantity
+            );
+        }
+        echo $data = json_encode($chart_data);
+    }
+
+    public function dates_order()
+    {
+        $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(40)->toDateString();
+        $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
+        $get = Statisticals::whereBetween('order_date', [$sub30days, $now])->orderby('order_date', 'asc')->get();
+
+        foreach ($get as $key => $value) {
+            $chart_data[] = array(
+                'period' => $value->order_date,
+                'order' => $value->total_order,
+                'sales' => $value->sales,
+                'profit' => $value->profit,
+                'quantity' => $value->quantity
+            );
+        }
+        echo $data = json_encode($chart_data);
     }
 }

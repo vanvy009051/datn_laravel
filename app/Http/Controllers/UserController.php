@@ -25,8 +25,8 @@ class UserController extends Controller
             Session::put('user_role', $result->role_id);
             return Redirect::to('/');
         } else {
-            Session::put('message', 'Email or password is incorrect. Please try again.');
-            return Redirect::to('/login');
+            Session::put('message', 'Email hoặc mật khẩu không đúng. Vui lòng thử lại!');
+            return Redirect::to('/user-login');
         }
     }
 
@@ -39,9 +39,16 @@ class UserController extends Controller
         $data['password'] = md5($request->user_password);
         $data['role_id'] = 2;
 
-        DB::table('users')->insert($data);
-        // Session::put('message', 'Đăng ký tài khoản thành công');
-        return Redirect::to('/login');
+        $cpassword = $request->user_cpassword;
+
+        if ($cpassword != $data['password']) {
+            Session::put('message', 'Xác nhận mật khẩu không khớp. Vui lòng nhập lại!');
+            return Redirect::to('/sign-up');
+        } else {
+            DB::table('users')->insert($data);
+            Session::put('message', 'Đăng ký tài khoản thành công');
+            return Redirect::to('/user-login');
+        }
     }
 
     public function user_logout()

@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('frontend.master')
+@section('title','Thanh Toán' )
+@section('main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GửI Email</title>
-</head>
+<div class="section">
+    <div class="container">
+        <h4>Thông tin chi tiết đơn hàng của bạn đã được gửi vào email. <br>Cảm ơn bạn đã đặt hàng tại website cửa hàng của chúng tôi.</h4>
+    </div>
+</div>
 
-<body>
-    <h1>Email được gửi từ: {{$name}}</h1>
-    <h3>Nội dung: {{$body}}</h3>
-</body>
-
-</html>
+@endsection

@@ -41,11 +41,18 @@
                     </div>
                 </form> -->
                 <form role="form" action="{{URL::to('/user-sign-up')}}" method="POST">
-                    <h2 class="title">Sign up</h2>
+                    <h2 class="title">Đăng ký</h2>
+                    <?php
+                    $message = Session::get('message');
+                    if ($message) {
+                        echo '<span class="" style="color:red; display:block;width:100%;">' . $message . '</span>';
+                        Session::put('message', null);
+                    }
+                    ?>
                     {{ csrf_field() }}
                     <div class="input-field">
                         <i class="fas fa-user"></i>
-                        <input type="text" name="user_name" placeholder="Fullname" required />
+                        <input type="text" name="user_name" placeholder="Tên đầy đủ" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-envelope"></i>
@@ -53,7 +60,7 @@
                     </div>
                     <div class="input-field">
                         <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" name="user_address" placeholder="Address" required />
+                        <input type="text" name="user_address" placeholder="Địa chỉ" required />
                     </div>
                     <!-- <div class="input-field" style="display:none;">
                         <i class="fas fa-lock"></i>
@@ -61,13 +68,13 @@
                     </div> -->
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="user_password" placeholder="Password" required />
+                        <input type="password" name="user_password" placeholder="Mật khẩu" required />
                     </div>
                     <div class="input-field">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="user_cpassword" placeholder="Confirm password" required />
+                        <input type="password" name="user_cpassword" placeholder="Xác nhận mật khẩu" required />
                     </div>
-                    <button type="submit" name="user_sign_up" class="btn">Sign up</button>
+                    <button type="submit" name="user_sign_up" class="btn">Đăng ký</button>
                     <!-- <p class="social-text">Or Sign up with social platforms</p>
                     <div class="social-media">
                         <a href="#" class="social-icon">
@@ -104,10 +111,10 @@
                 <div class="content">
                     <h3>One of us ?</h3>
                     <p>
-                        If you already have an account, sign in right now?
+                        Nếu bạn đã có tài khoản, đăng nhập ngay?
                     </p>
                     <a href="{{URL::to('/user-login')}}" class="btn-link transparent" id="sign-in-btn">
-                        Sign in
+                        Đăng nhập
                     </a>
                 </div>
                 <img src="img/register.svg" class="image" alt="" />

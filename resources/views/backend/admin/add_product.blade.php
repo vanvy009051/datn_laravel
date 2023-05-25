@@ -20,27 +20,35 @@
                     <form role="form" action="{{URL::to('/save-product')}}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="exampleInputName">Product name</label>
+                            <label for="exampleInputName">Tên sản phẩm</label>
                             <input type="text" name="product_name" class="form-control" id="exampleInputName">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputSlug">Slug</label>
+                            <label for="exampleInputQty">Số lượng</label>
+                            <input type="text" name="product_qty" class="form-control" id="exampleInputQty">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputSlug">Đường dẫn</label>
                             <input type="text" name="product_slug" class="form-control" id="exampleInputSlug">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputPrice">Price</label>
+                            <label for="exampleInputPrice">Giá bán</label>
                             <input type="text" name="product_price" class="form-control" id="exampleInputPrice">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputImage">Image</label>
+                            <label for="exampleInputCost">Giá gốc</label>
+                            <input type="text" name="product_cost" class="form-control" id="exampleInputCost">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputImage">Hình ảnh</label>
                             <input type="file" name="product_image" class="form-control" id="exampleInputImage">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputDesc">Product description</label>
+                            <label for="exampleInputDesc">Mô tả sản phẩm</label>
                             <textarea style="resize:none;" rows="5" class="form-control" name="product_desc" id="exampleInputDesc" placeholder="Category description"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="">Category</label>
+                            <label for="">Danh mục</label>
                             <select name="category_name" class="form-control input-sm m-bot15">
                                 @foreach($cate as $key => $cate)
                                 <option value="{{ $cate->category_id }}">{{ $cate->category_name }}</option>
@@ -48,7 +56,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Brand</label>
+                            <label for="">Thương hiệu</label>
                             <select name="brand_name" class="form-control input-sm m-bot15">
                                 @foreach($brand as $key => $brand)
                                 <option value="{{ $brand->brand_id }}">{{ $brand->brand_name }}</option>
@@ -56,13 +64,13 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="">Display</label>
+                            <label for="">Trạng thái</label>
                             <select name="product_status" class="form-control input-sm m-bot15">
-                                <option value="1">Show</option>
-                                <option value="0">Hide</option>
+                                <option value="1">Hiển thị</option>
+                                <option value="0">Ẩn</option>
                             </select>
                         </div>
-                        <button type="submit" name="add_category" class="btn btn-info">Add product</button>
+                        <button type="submit" name="add_product" class="btn btn-info">Thêm sản phẩm</button>
                     </form>
                 </div>
 
