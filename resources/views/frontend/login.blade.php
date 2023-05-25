@@ -14,8 +14,8 @@
 <body>
     <div class="login-card">
         <div class="column">
-            <h1>Login</h1>
-            <p>After logining in, you can enjoy the privileges.</p>
+            <h1>Đăng nhập</h1>
+            <p>Sau khi đăng nhập, bạn có thể tận hưởng các đặc quyền.</p>
             <?php
             $message = Session::get('message');
             if ($message) {
@@ -26,24 +26,24 @@
             <form action="{{URL::to('/user-dashboard')}}" method="post">
                 {{ csrf_field() }}
                 <div class="form-item">
-                    <input type="text" name="user_email" class="form-element" placeholder="Username or Email" required>
+                    <input type="text" name="user_email" class="form-element" placeholder="Email của bạn" required>
                 </div>
                 <div class="form-item">
-                    <input type="password" name="user_password" class="form-element" placeholder="Password" required>
+                    <input type="password" name="user_password" class="form-element" placeholder="Mật khẩu" required>
                 </div>
                 <div class="form-checkbox-item">
                     <input type="checkbox" id="rememberMe">
-                    <label for="rememberMe">Remember Me</label>
+                    <label for="rememberMe">Nhớ mật khẩu</label>
                 </div>
                 <div class="flex">
-                    <button type="submit">Sign In</button>
+                    <button type="submit">Đăng nhập</button>
                     @if (Route::has('password.request'))
                     <a class="btn btn-link" href="{{ route('password.request') }}">
                         {{ __('Forgot Your Password?') }}
                     </a>
                     @endif
                 </div>
-                <p style="margin-top:3rem; margin-bottom:1.5rem;">Other sign-in methods</p>
+                <p style="margin-top:3rem; margin-bottom:1.5rem;">Đăng nhập bằng</p>
                 <div class="socials-button">
                     <a href="{{URL::to('/login-facebook/facebook')}}" class="facebook">
                         <i class="bi bi-facebook"></i>
@@ -58,9 +58,9 @@
             </form>
         </div>
         <div class="column">
-            <h2>Welcome to Electro</h2>
-            <p>If you don't have an account, would you like to register right now?</p>
-            <a href="/DATN_ELaravel/sign-up">Sign Up</a>
+            <h2>Chào mừng bạn đến với Electro</h2>
+            <p>Nếu bạn chưa có tài khoản, bạn có muốn đăng ký ngay không?</p>
+            <a href="/DATN_ELaravel/sign-up">Đăng ký</a>
         </div>
     </div>
 

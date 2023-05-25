@@ -8,6 +8,9 @@ use App\Http\Requests;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use App\Models\Product;
+use App\Models\Comments;
+use App\Models\Ratings;
 
 session_start();
 
@@ -21,6 +24,78 @@ class ProductController extends Controller
         } else {
             return Redirect::to('/admin-login')->send();
         }
+    }
+
+    public function allow_comment(Request $request)
+    {
+        $data = $request->all();
+        $comment = Comments::find($data['comment_id']);
+        $comment->comment_status = $data['comment_status'];
+        $comment->save();
+    }
+
+    public function list_comments()
+    {
+        $comment = Comments::with('product')->orderby('comment_status', 'ASC')->get();
+        return view('backend.comments.all_comments')->with(compact('comment'));
+    }
+
+    public function send_comments(Request $request)
+    {
+        $comment = new Comments();
+        $product_id = $request->product_id;
+        $comment_name = $request->comment_name;
+        $comment_text = $request->comment_text;
+        $comment->comment_user_name = $comment_name;
+        $comment->comment_product_id = $product_id;
+        $comment->comment_text = $comment_text;
+        $comment->comment_status = 0;
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $comment->created_at = now();
+        $comment->save();
+    }
+
+    public function load_comments(Request $request)
+    {
+        $product_id = $request->product_id;
+        $output = '';
+        $comment = Comments::where('comment_product_id', $product_id)->where('comment_status', 1)->get();
+        foreach ($comment as $key => $comm) {
+            $output .= '            
+            <div class="row d-flex-center" style="background:#e6e6e6; padding: 24px 0; border-radius:20px; margin: 16px 0;">
+            <div class="col-md-2">                
+                <img width="100px" height="80px" style="padding-left: 12px" src="http://localhost:81/DATN_Elaravel/public/backend/web/images/2.png" alt="">
+            </div>
+            <div class="col-md-10 d-flex-center">
+            <ul class="profile-reviews" style="margin-bottom: 12px;">
+                <li><a href=""><i class="fa fa-user"></i>' . $comm->comment_user_name . '</a></li>
+                <li><a href=""><i class="fa fa-clock-o"></i>' . $comm->created_at . '</a></li>
+            </ul>
+            <p>' . $comm->comment_text . '</p>
+            </div>
+        </div>';
+        }
+        echo $output;
+    }
+
+    public function quick_view(Request $request)
+    {
+        $product_id = $request->product_id;
+        $product = Product::find($product_id);
+        $output['product_name'] = $product->title;
+        $output['product_price'] = number_format($product->price);
+        $output['product_description'] = $product->product_description;
+        $output['product_thumbnail'] = '<div><img width="100%" src="http://localhost:81/DATN_ELaravel/public/uploads/products/' . $product->thumbnail . '"></div>';
+        $output['quick_view_button'] = '
+        <button class="add-to-cart-btn-quick primary-btn" type="button" data-id_product="' . $product->product_id . '"><i class="fa fa-shopping-cart"></i> add to cart</button>';
+
+        $output['product_quick_view_value'] = '
+        <input type="hidden" value="' . $product->product_id . '" class="ajax_cart_product_id_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->title . '" class="ajax_cart_product_name_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->thumbnail . '" class="ajax_cart_product_image_' . $product->product_id . '">
+        <input type="hidden" value="' . $product->price . '" class="ajax_cart_product_price_' . $product->product_id . '">
+        <input type="hidden" value="1" class="ajax_cart_product_qty_' . $product->product_id . '">';
+        echo json_encode($output);
     }
 
     public function add_product()
@@ -37,7 +112,9 @@ class ProductController extends Controller
         $all_product = DB::table('products')
             ->join('categories', 'categories.category_id', '=', 'products.category_id')
             ->join('brands', 'brands.brand_id', '=', 'products.brand_id')
-            ->orderby('products.product_id', 'ASC')->get();
+            ->where('products.product_status', '=', '1')
+            ->orderby('products.product_id', 'ASC')
+            ->paginate(12);
         $manager_product = view('backend/admin.all_product')->with('all_product', $all_product);
         return view('backend/admin.layout')->with('backend/admin.all_product', $manager_product);
     }
@@ -50,9 +127,12 @@ class ProductController extends Controller
         $data['brand_id'] = $request->brand_name;
         $data['title'] = $request->product_name;
         $data['price'] = $request->product_price;
+        $data['product_cost'] = $request->product_cost;
+        $data['product_quantity'] = $request->product_qty;
         $data['product_description'] = $request->product_desc;
-        $data['product_slug'] = ($data['product_slug'] == '') ? Str::slug($data['title'], '-') : Str::slug($request->product_slug, '-');
+        $data['product_slug'] = $request->product_slug == '' ? Str::slug($data['title'], '-') : Str::slug($request->product_slug, '-');
         $data['product_status'] = $request->product_status;
+        $data['product_sold'] = 0;
 
         $get_image = $request->file('product_image');
 
@@ -108,9 +188,13 @@ class ProductController extends Controller
         $data['brand_id'] = $request->brand_name;
         $data['title'] = $request->product_name;
         $data['price'] = $request->product_price;
+        $data['product_cost'] = $request->product_cost;
+        $data['product_quantity'] = $request->product_qty;
         $data['product_description'] = $request->product_desc;
-        $data['product_slug'] = ($data['product_slug'] == '') ? Str::slug($data['title'], '-') : Str::slug($request->product_slug, '-');
+        $product_slug = Str::slug($data['title'], '-');
+        $data['product_slug'] = $request->category_slug == '' ? $product_slug : Str::slug($request->product_slug, '-');
         $data['product_status'] = $request->product_status;
+        $data['product_sold'] = 0;
         $get_image = $request->file('product_image');
 
         if ($get_image) {
@@ -157,6 +241,20 @@ class ProductController extends Controller
             ->join('brands', 'brands.brand_id', '=', 'products.brand_id')
             ->where('products.category_id', $category_id)->get();
 
-        return view('pages.product_detail')->with('category', $category)->with('brand', $brand)->with('product_detail', $product_detail)->with('product_related', $product_related);
+        $rating = Ratings::where('product_id', $product_id)->avg('rate_star');
+        $rating = round($rating);
+
+        return view('pages.product_detail')->with('category', $category)->with('brand', $brand)
+            ->with('product_detail', $product_detail)->with('product_related', $product_related)->with('rating', $rating);
+    }
+
+    public function insert_rating(Request $request)
+    {
+        $data = $request->all();
+        $rating = new Ratings();
+        $rating->product_id = $data['product_id'];
+        $rating->rate_star = $data['index'];
+        $rating->save();
+        echo 'done';
     }
 }

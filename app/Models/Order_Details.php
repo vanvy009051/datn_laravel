@@ -9,14 +9,14 @@ class Order_Details extends Model
 {
     //
     protected $fillable = [
-        'order_id', 'product_id', 'num', 'price', 'total'
+        'order_id', 'product_id', 'order_code', 'product_name', 'quanlity', 'product_price', 'product_coupon', 'product_feeship'
     ];
-    protected $table = 'order_details';
-    protected $primarykey = 'id';
+    protected $table = 'order__details';
+    protected $primarykey = 'order_detail_id';
     protected $guarded = [];
 
-    public function product(): HasOne
+    public function product()
     {
-        return $this->hasOne(Product::class, 'product_id', 'id');
+        return $this->belongsTo('App\Models\Product', 'product_id');
     }
 }

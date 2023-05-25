@@ -1,33 +1,12 @@
 @extends('backend/admin.layout')
-@section('title', 'List Orders')
+@section('title', 'Quản lý đơn hàng')
 @section('admin_content')
 
 <div class="table-agile-info">
     <div class="panel panel-default">
         <div class="panel-heading">
-            List Orders
+            Quản lý đơn hàng
         </div>
-        <!-- <div class="row w3-res-tb">
-            <div class="col-sm-5 m-b-xs">
-                <select class="input-sm form-control w-sm inline v-middle">
-                    <option value="0">Bulk action</option>
-                    <option value="1">Delete selected</option>
-                    <option value="2">Bulk edit</option>
-                    <option value="3">Export</option>
-                </select>
-                <button class="btn btn-sm btn-default">Apply</button>
-            </div>
-            <div class="col-sm-4">
-            </div>
-            <div class="col-sm-3">
-                <div class="input-group">
-                    <input type="text" class="input-sm form-control" placeholder="Search">
-                    <span class="input-group-btn">
-                        <button class="btn btn-sm btn-default" type="button">Go!</button>
-                    </span>
-                </div>
-            </div>
-        </div> -->
         <div class="table-responsive">
             <?php
             $message = Session::get('message');
@@ -39,30 +18,31 @@
             <table class="table table-striped b-t b-light">
                 <thead>
                     <tr>
-                        <th style="width:20px;">
-                            <label class="i-checks m-b-none">
-                                <input type="checkbox"><i></i>
-                            </label>
-                        </th>
-                        <th>Customer Name</th>
-                        <th>Total</th>
-                        <th>Order Status</th>
-                        <th>Order Date</th>
-                        <th>Action</th>
-                        <th style="width:30px;"></th>
+                        <th>STT</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tình trạng đơn hàng</th>
+                        <th>Ngày đặt hàng</th>
+                        <th>Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($all_order as $key => $order)
                     <tr>
-                        <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
-                        <td>{{ $order->fullname }}</td>
-                        <td>{{ $order->order_total }}</td>
-                        <td>{{ $order->order_status }}</td>
-                        <td><span class="text-ellipsis">{{ $order->created_at }}</span></td>
+                        <td><i>{{$key + 1}}</i></td>
+                        <td>{{ $order->order_code }}</td>
                         <td>
-                            <a href="{{URL::to('/view-order/'.$order->order_id)}}" style="font-size:20px;" class="active" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"></i></a>
-                            <a onclick="return confirm('Bạn có chắc chắn xoá danh mục này không?')" href="{{URL::to('/delete-order/'.$order->order_id)}}" style="font-size:20px;" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"></i></a>
+                            @if($order->order_status == 1)
+                            <span class="text-warning">Đơn hàng mới</span>
+                            @elseif($order->order_status == 2)
+                            <span class="text-success">Đã xử lý - Đã giao hàng</span>
+                            @else
+                            <span class="text-danger">Đã huỷ đơn</span>
+                            @endif
+                        </td>
+                        <td><span class="text-ellipsis">{{$order->created_at}}</span></td>
+                        <td style="display: flex; gap:12px; align-items:center;">
+                            <a href="{{URL::to('/view-order/'.$order->order_code)}}" style="font-size:20px;" class="active" ui-toggle-class=""><i class="fa fa-pencil-square-o text-success text-active"> View order</i></a>
+                            <a onclick="return confirm('Bạn có chắc chắn xoá danh mục này không?')" href="{{URL::to('/delete-order/'.$order->order_code)}}" style="font-size:20px;" class="active" ui-toggle-class=""><i class="fa fa-times text-danger text"> Delete order</i></a>
                         </td>
                     </tr>
                     @endforeach
@@ -70,21 +50,8 @@
             </table>
         </div>
         <footer class="panel-footer">
-            <div class="row">
-
-                <div class="col-sm-5 text-center">
-                    <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                </div>
-                <div class="col-sm-7 text-right text-center-xs">
-                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                        <li><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
-                </div>
+            <div class="row" style="display:flex; justify-content:center;">
+                {{$all_order}}
             </div>
         </footer>
     </div>

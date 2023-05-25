@@ -13,6 +13,21 @@ session_start();
 
 class CartController extends Controller
 {
+    // Show Cart Quantity
+    public function show_cart_quantity()
+    {
+        if (Session::get('cart')) {
+            $cart = count(Session::get('cart'));
+            if ($cart > 0) {
+                echo $cart;
+            } else {
+                echo 0;
+            }
+        } else {
+            echo 0;
+        }
+    }
+
     // Ajax Cart
     public function add_cart_ajax(Request $request)
     {
@@ -42,6 +57,7 @@ class CartController extends Controller
                     'product_id' => $data['ajax_cart_pro_id'],
                     'product_image' => $data['ajax_cart_pro_img'],
                     'product_qty' => $data['ajax_cart_pro_qty'],
+                    'product_quantity' => $data['ajax_cart_pro_quantity'],
                     'product_price' => $data['ajax_cart_pro_price']
                 );
                 Session::put('cart', $cart);
@@ -53,6 +69,7 @@ class CartController extends Controller
                 'product_id' => $data['ajax_cart_pro_id'],
                 'product_image' => $data['ajax_cart_pro_img'],
                 'product_qty' => $data['ajax_cart_pro_qty'],
+                'product_quantity' => $data['ajax_cart_pro_quantity'],
                 'product_price' => $data['ajax_cart_pro_price']
             );
             Session::put('cart', $cart);
@@ -72,15 +89,21 @@ class CartController extends Controller
         $data_update = $request->all();
         $cart = Session::get('cart');
         if ($cart == true) {
+            $message = '';
             foreach ($data_update['ajax_quantity'] as $key => $qty) {
+                $i = 0;
                 foreach ($cart as $session => $value) {
-                    if ($value['session_id'] == $key) {
+                    $i++;
+                    if ($value['session_id'] == $key && $qty < $cart[$session]['product_quantity']) {
                         $cart[$session]['product_qty'] = $qty;
+                        $message .= '<div class="alert alert-success">' . $i . '. Cập nhật số lượng: ' . $cart[$session]['product_name'] . ' thành công</div>';
+                    } elseif ($value['session_id'] == $key && $qty > $cart[$session]['product_quantity']) {
+                        $message .= '<div class="alert alert-danger">' . $i . '. Cập nhật số lượng: ' . $cart[$session]['product_name'] . ' thất bại bởi vì số lượng đặt hàng lớn hơn số lượng có trong kho của cửa hàng.</div>';
                     }
                 }
             }
             Session::put('cart', $cart);
-            return redirect()->back()->with('message', 'Cập nhật giỏ hàng thành công');
+            return redirect()->back()->with('message', $message);
         } else {
             return redirect()->back()->with('error', 'Cập nhật giỏ hàng thất bại');
         }
@@ -99,9 +122,9 @@ class CartController extends Controller
                 }
             }
             Session::put('cart', $cart);
-            return redirect()->back()->with('message', 'Cart deleted successfully');
+            return redirect()->back()->with('message', 'Xoá giỏ hàng thành công');
         } else {
-            return redirect()->back()->with('error', 'Cart deleted failed');
+            return redirect()->back()->with('error', 'Xoá giỏ hàng thất bại');
         }
     }
 
@@ -110,6 +133,9 @@ class CartController extends Controller
         $cart = Session::get('cart');
         if ($cart == true) {
             Session::forget('cart');
+            Session::forget('coupon');
+            Session::forget('fee');
+            return redirect()->back()->with('message', 'Xoá tất cả sản phẩm khỏi giỏ hàng thành công');
         }
     }
 

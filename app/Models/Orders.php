@@ -10,17 +10,9 @@ class Orders extends Model
 {
     //
     protected $fillable = [
-        'user_id', 'fullname', 'email', 'phone_number', 'address', 'note', 'order_date'
+        'user_id', 'shipping_id', 'order_status', 'order_code', 'order_date', 'created_at', 'updated_at'
     ];
     protected $table = 'orders';
-    protected $primarykey = 'order_id';
+    protected $primaryKey = 'order_id';
     protected $guarded = [];
-
-    public function order_details(): HasMany {
-        return $this->hasMany(Order_Details::class, 'order_id', 'id');
-    }
-
-    public function user(): HasOne {
-        return $this->hasOne(User::class, 'user_id', 'id');
-    }
 }

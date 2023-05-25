@@ -9,14 +9,14 @@ class Coupon extends Model
 {
     //
     protected $fillable = [
-        'coupon_name', 'coupon_name', 'coupon_code', 'coupon_condition', 'coupon_percent'
+        'coupon_name', 'coupon_num', 'coupon_code', 'coupon_condition', 'coupon_percent'
     ];
     protected $table = 'coupons';
-    protected $primarykey = 'coupon_id';
+    protected $primaryKey = 'coupon_id';
     protected $guarded = [];
 
-    public function product(): HasMany
-    {
-        return $this->hasMany(Product::class, 'coupon_id');
-    }
+    // public function product(): HasMany
+    // {
+    //     return $this->hasMany(Product::class, 'coupon_id');
+    // }
 }

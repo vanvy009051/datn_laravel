@@ -554,13 +554,14 @@ textarea.input {
   visibility: hidden;
 }
 
-.dropdown.open>.cart-dropdown {
+.dropdown:hover>.cart-dropdown {
   opacity: 1;
   visibility: visible;
+  transition: all .3;
 }
 
 .cart-dropdown .cart-list {
-  max-height: 180px;
+  max-height: 400px;
   overflow-y: scroll;
   margin-bottom: 15px;
 }

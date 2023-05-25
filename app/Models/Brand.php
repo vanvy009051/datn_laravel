@@ -3,19 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Brand extends Model
 {
     protected $fillable = [
-        'brand_name', 'status', 'description'
+        'brand_name', 'brand_slug', 'status', 'description', 'created_at', 'updated_at'
     ];
     protected $table = 'brands';
-    protected $primarykey = 'brand_id';
+    protected $primaryKey = 'brand_id';
     protected $guarded = [];
 
-    public function product(): HasMany
+    public function product()
     {
-        return $this->hasMany(Product::class, 'brand_id');
+        return $this->hasMany('App\Models\Product', 'brand_id');
     }
 }

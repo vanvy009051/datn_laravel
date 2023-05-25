@@ -1,11 +1,11 @@
 @extends('backend/admin.layout')
-@section('title', 'List Products')
+@section('title', 'Liệt kê sản phẩm')
 @section('admin_content')
 
 <div class="table-agile-info">
     <div class="panel panel-default">
         <div class="panel-heading">
-            List Products
+            Liệt kê sản phẩm
         </div>
         <div class="row w3-res-tb">
             <div class="col-sm-5 m-b-xs">
@@ -44,13 +44,15 @@
                                 <input type="checkbox"><i></i>
                             </label>
                         </th>
-                        <th>Image</th>
-                        <th>Name</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>Action</th>
+                        <th>Hình ảnh</th>
+                        <th>Tên SP</th>
+                        <th>Giá bán</th>
+                        <th>Giá gốc</th>
+                        <th>Số lượng</th>
+                        <th>Trạng thái</th>
+                        <th>Danh mục</th>
+                        <th>Thương hiệu</th>
+                        <th>Hành động</th>
                         <th style="width:30px;"></th>
                     </tr>
                 </thead>
@@ -60,7 +62,9 @@
                         <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
                         <td><img src="public/uploads/products/{{ $product->thumbnail }}" width="100" height="100" alt=""></td>
                         <td>{{ $product->title }}</td>
-                        <td>{{ $product->price }}</td>
+                        <td>{{ number_format($product->price) }} VNĐ</td>
+                        <td>{{ number_format($product->product_cost) }} VNĐ</td>
+                        <td>{{ $product->product_quantity }}</td>
                         <td>
                             <span class="text-ellipsis">
                                 <?php
@@ -89,20 +93,7 @@
         </div>
         <footer class="panel-footer">
             <div class="row">
-
-                <div class="col-sm-5 text-center">
-                    <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-                </div>
-                <div class="col-sm-7 text-right text-center-xs">
-                    <ul class="pagination pagination-sm m-t-none m-b-none">
-                        <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-                        <li><a href="">1</a></li>
-                        <li><a href="">2</a></li>
-                        <li><a href="">3</a></li>
-                        <li><a href="">4</a></li>
-                        <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-                    </ul>
-                </div>
+                {{$all_product}}
             </div>
         </footer>
     </div>

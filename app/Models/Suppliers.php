@@ -9,14 +9,9 @@ class Suppliers extends Model
 {
     //
     protected $fillable = [
-        'id', 'name', 'email', 'address', 'phone_number'
+        'name', 'email', 'address', 'phone_number'
     ];
     protected $table = 'suppliers';
-    protected $primarykey = 'id';
+    protected $primaryKey = 'supplier_id';
     protected $guarded = [];
-
-    public function inventory(): HasOne
-    {
-        return $this->hasOne(Inventory::class, 'supplier_id', 'id');
-    }
 }
