@@ -194,7 +194,8 @@ class ProductController extends Controller
         $product_slug = Str::slug($data['title'], '-');
         $data['product_slug'] = $request->category_slug == '' ? $product_slug : Str::slug($request->product_slug, '-');
         $data['product_status'] = $request->product_status;
-        $data['product_sold'] = 0;
+        $product_sold = Product::where('product_id', $product_id)->get();
+        $data['product_sold'] = $product_sold->product_sold;
         $get_image = $request->file('product_image');
 
         if ($get_image) {

@@ -45,7 +45,7 @@
                                     <div class="product-img">
                                         <img id="wishlist_product_image-{{ $product->product_id }}" src="{{asset('public/uploads/products/' . $product->thumbnail)}}" style="height:263px; width:100%;object-fit:contain;" alt="">
                                         <div class="product-label">
-                                            <span class="sale">-30%</span>
+                                            <!-- <span class="sale">-30%</span> -->
                                             <span class="new">MỚI</span>
                                         </div>
                                     </div>

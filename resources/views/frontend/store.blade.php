@@ -51,32 +51,32 @@
                 <!-- /aside Widget -->
 
                 <!-- aside Widget -->
-                <div class="aside">
+                <!-- <div class="aside">
                     <h3 class="aside-title">Lọc theo giá</h3>
                     <div class="price-filter">
                         <div id="price-slider"></div>
                         <div class="input-number price-min">
                             <input id="price-min" type="number">
-                            <!-- <span class="qty-up">+</span>
-                            <span class="qty-down">-</span> -->
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
                         </div>
                         <span>-</span>
                         <div class="input-number price-max">
                             <input id="price-max" type="number">
-                            <!-- <span class="qty-up">+</span>
-                            <span class="qty-down">-</span> -->
+                            <span class="qty-up">+</span>
+                            <span class="qty-down">-</span>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <!-- /aside Widget -->
 
                 <!-- aside Widget -->
                 <div class="aside">
                     <h3 class="aside-title">Thương hiệu</h3>
                     <div class="checkbox-filter">
-                        @foreach($brand as $brand)
+                        @foreach($brand as $key2 => $brand)
                         <div class="input-checkbox">
-                            <input type="checkbox" id="brand-{{$brand->brand_id}}">
+                            <input type="checkbox" class="brand-filter" name="brand-filter" data-filter="brand" value="{{$brand->brand_id}}" id="brand-{{$brand->brand_id}}">
                             <label for="brand-{{$brand->brand_id}}">
                                 <span></span>
                                 {{$brand->brand_name}}
@@ -84,6 +84,16 @@
                             </label>
                         </div>
                         @endforeach
+                        <?php
+                        $brand_id = [];
+                        $brand_arr = [];
+                        if (isset($_GET['brand'])) {
+                            $brand_id = $_GET['brand'];
+                        } else {
+                            $brand_id = $brand->brand_id . ",";
+                        }
+                        $brand_arr = explode(",", $brand_id);
+                        ?>
                     </div>
                 </div>
                 <!-- /aside Widget -->
