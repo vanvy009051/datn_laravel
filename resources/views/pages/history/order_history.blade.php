@@ -21,7 +21,7 @@
                 $message = Session::get('message-order-success');
                 if ($message) {
                     echo '<div class="alert alert-success">' . $message . '</div>';
-                    Session::put('message', null);
+                    Session::put('message-order-success', null);
                 }
                 ?>
                 <table class="table table-striped b-t b-light">

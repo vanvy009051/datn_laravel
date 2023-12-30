@@ -41,7 +41,7 @@ class UserController extends Controller
 
         $cpassword = $request->user_cpassword;
 
-        if ($cpassword != $data['password']) {
+        if ($cpassword != $request->user_password) {
             Session::put('message', 'Xác nhận mật khẩu không khớp. Vui lòng nhập lại!');
             return Redirect::to('/sign-up');
         } else {

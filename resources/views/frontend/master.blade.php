@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Electro - @yield('title')</title>
@@ -13,6 +14,7 @@
     <!-- <link rel="stylesheet" href="{{asset('/public/frontend/electro-master/css/contact.css')}}"> -->
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+    <link rel="icon" href="{{asset('public/frontend/electro-master/img/Electro.png')}}" />
 
     <link type="text/css" rel="stylesheet" href="{{asset('public/frontend/electro-master/css/sweetalert.css')}}" />
     <!-- <link type="text/css" rel="stylesheet" href="{{asset('public/frontend/electro-master/css/lightgallery.css')}}" /> -->
@@ -412,6 +414,21 @@
         });
     </script>
 
+    <!-- <script type="text/javascript">
+        $('.brand-filter').click(function() {
+            var brand = [],
+                tempArr = [];
+            $.each($("[data-filter='brand']:checked"), function() {
+                tempArr.push($(this).val());
+            });
+            tempArr.reverse();
+            if (tempArr.length !== 0) {
+                brand += '?brand=' + tempArr.toString();
+            }
+            window.location.href = brand
+        });
+    </script> -->
+
     <script type="text/javascript">
         $(document).ready(function() {
             loadComment();
@@ -653,12 +670,13 @@
                 data.reverse();
 
                 for (i = 0; i < data.length; i++) {
+                    var id = data[i].id;
                     var name = data[i].name;
                     var price = data[i].price;
                     var image = data[i].image;
                     var url = data[i].url;
 
-                    $('#row-wishlist').append('<div class="row" style="margin-bottom: 4px;"><div class="col-3 col-md-3 col-lg-3"><img width="100%" src="' + image + '" /></div><div class="col-md-9 col-9 col-lg-9"><p>' + name + '</p><p>' + price + ' VNĐ</p><a href="' + url + '">Mua ngay</a></div></div>');
+                    $('#row-wishlist').append('<div class="row" style="margin-bottom: 4px;"><div class="col-3 col-md-3 col-lg-3"><img width="100%" src="' + image + '" /></div><div class="col-md-8 col-8 col-lg-8"><p>' + name + '</p><p>' + price + ' VNĐ</p><a href="' + url + '">Mua ngay</a></div><div><a class="xoa-yt-sp" data-id="' + id + '"><i class="fa fa-times" aria-hidden="true"></i></a></div></div>');
                     // swal("Thành công!", "Yêu thích SP thành công <3", "success");
                 }
 
@@ -700,12 +718,25 @@
                 alert('Bạn đã yêu thích SP, không thể thêm được nữa!');
             } else {
                 old_data.push(newItem);
-                $('#row-wishlist').append('<div class="row"><div class="col-3 col-md-3 col-lg-3"><img width="100%" src="' + newItem.image + '" /></div><div class="col-md-9 col-9 col-lg-9"><p>' + newItem.name + '</p><p>' + newItem.price + '</p><a href="' + newItem.url + '">Mua ngay</a></div></div>');
+                $('#row-wishlist').append('<div class="row"><div class="col-3 col-md-3 col-lg-3"><img width="100%" src="' + newItem.image + '" /></div><div class="col-md-8 col-8 col-lg-8"><p>' + newItem.name + '</p><p>' + newItem.price + '</p><a href="' + newItem.url + '">Mua ngay</a></div><div><a class="xoa-yt-sp" data-id="' + newItem.id + '"><i class="fa fa-times" aria-hidden="true"></i></a></div></div>');
                 swal("Thành công!", "Yêu thích SP thành công <3", "success");
             }
 
             localStorage.setItem('data', JSON.stringify(old_data));
         }
+
+        $('.xoa-yt-sp').on('click', function() {
+            var id = $(this).data('id');
+            var data = JSON.parse(localStorage.getItem('data'));
+
+            data.forEach(function(item, index) {
+                if (id == item.id) {
+                    data.splice(index, 1);
+                }
+            });
+
+            localStorage.setItem('data', JSON.stringify(data));
+        });
 
         // demSLSPYT();
     </script>
@@ -833,7 +864,7 @@
             });
             window.setTimeout(() => {
                 location.reload();
-            }, 3000);
+            }, 2000);
         }
     </script>
 
@@ -971,7 +1002,7 @@
                             });
                             window.setTimeout(function() {
                                 window.location.href = 'http://localhost:81/DATN_ELaravel/lich-su-don-hang';
-                            }, 9000);
+                            }, 6000);
                         } else {
                             swal("Huỷ", "Đặt hàng không thành công!", "error");
                         }
